@@ -14,11 +14,14 @@
         </div>
         <b-loading :is-full-page="isFullPage" :active.sync="isLoading" :can-cancel="false"></b-loading>
   </div>
+  <div class="message">
+      {{message}}
+  </div>
   </section>
 </template>
 
 <script>
-    const API_URL= 'http://localhost:5000/msg'
+    const API_URL= 'http://localhost:5000'
 
 export default {
   name: 'Home',
@@ -31,12 +34,19 @@ export default {
   },
   methods: {
       getFormData () {
-          console.log(this.message);
+          fetch(API_URL, {
+              method: 'POST',
+              body: JSON.stringify(message),
+              headers: {
+                  'content-type': 'application/json'
+              }
+          });
       },
       openLoading() {
           this.isLoading = true;
           setTimeout(() => {
               this.isLoading = false
+              this.message = ''
           }, 10 * 300)
       }
   }
